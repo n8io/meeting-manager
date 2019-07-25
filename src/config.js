@@ -13,8 +13,8 @@ args
   .name(name)
   .version(version)
   .option(`-i --ifttt-key`, `Your IFTTT maker key to use`)
-  .option(`-s --start`, `Flag to start a meeting. Otherwise end a meeting`)
   .option(`-k --slack-key`, `Your Slack api key`)
+  .option(`-s --start`, `Flag to start a meeting. Otherwise end a meeting`)
   .option(
     `-t --meeting-type <zoom or tuple>`,
     `The type of meeting. Either zoom or tuple values are accepted`
