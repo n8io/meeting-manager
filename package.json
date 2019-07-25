@@ -1,6 +1,6 @@
 {
   "name": "meeting-manager",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "author": "Nate Clark <n8@n8io.com>",
   "license": "MIT",

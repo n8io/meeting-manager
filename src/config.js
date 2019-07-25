@@ -1,5 +1,6 @@
 const commander = require("commander");
 const path = require("path");
+const { name, version } = require("../package.json");
 const { TUPLE, ZOOM } = require("./meetingType");
 
 require("dotenv").config({
@@ -9,8 +10,8 @@ require("dotenv").config({
 const args = new commander.Command();
 
 args
-  .name("meeting-manager")
-  .version("1.0.0")
+  .name(name)
+  .version(version)
   .option(`-i --ifttt-key`, `Your IFTTT maker key to use`)
   .option(`-s --start`, `Flag to start a meeting. Otherwise end a meeting`)
   .option(`-k --slack-key`, `Your Slack api key`)
