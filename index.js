@@ -8,8 +8,8 @@ const { IS_STARTING: isMeetingStarting } = config;
 
 const startMeeting = async () => {
   await beHeadsetAudio(isMeetingStarting);
-  await bePlayingMusic(!isMeetingStarting);
   await updateSlackStatus(isMeetingStarting);
+  await bePlayingMusic(!isMeetingStarting);
   await beOnAir(isMeetingStarting);
 };
 
