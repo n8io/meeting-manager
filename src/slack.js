@@ -5,9 +5,9 @@ const { log } = require("./log");
 const { TUPLE, ZOOM } = require("./meetingType");
 const { mkDir, readJson, writeFile } = require("./fs");
 
-const { MEETING_TYPE, SLACK_API_TOKEN } = config;
-const STATUS_FILE_DIR = `${os.homedir()}/.meeting-manager`;
-const STATUS_FILE_PATH = `${STATUS_FILE_DIR}/last-status.json`;
+const { APP_TMP_DIR, MEETING_TYPE, SLACK_API_TOKEN } = config;
+const SLACK_DIR = `${APP_TMP_DIR}/slack`;
+const STATUS_FILE_PATH = `${SLACK_DIR}/status.json`;
 
 const web = new WebClient(SLACK_API_TOKEN);
 
@@ -21,6 +21,24 @@ const fromSlack = ({
   expiration,
 });
 
+const toSlack = ({
+  text: status_text,
+  emoji: status_emoji,
+  expiration: status_expiration,
+}) => ({
+  status_text,
+  status_emoji,
+  status_expiration,
+});
+
+const validate = () => {
+  if (!SLACK_API_TOKEN) {
+    const err = `No SLACK_API_TOKEN was provided`;
+
+    throw new Error(err);
+  }
+};
+
 const saveStatus = async () => {
   log("Fetching user status...");
   const { profile } = await web.users.profile.get();
@@ -28,18 +46,14 @@ const saveStatus = async () => {
   const status = fromSlack(profile);
   log(`${fullName}'s status ${JSON.stringify(status)}`);
 
-  await mkDir(STATUS_FILE_DIR);
+  await mkDir(SLACK_DIR);
   await writeFile(STATUS_FILE_PATH, JSON.stringify(status));
 };
 
-const setStatus = async ({
-  text: status_text,
-  emoji: status_emoji,
-  expiration: status_expiration,
-}) => {
+const setStatus = async status => {
   log(`Setting user status...`);
   await web.users.profile.set({
-    profile: { status_text, status_emoji, status_expiration },
+    profile: toSlack(status),
   });
 };
 
@@ -64,12 +78,14 @@ const makeStatus = meetingType => {
         text: "In a meeting",
       };
     default:
-      return {};
+      return null;
   }
 };
 
 const updateStatus = async isMeetingStarting => {
   try {
+    validate();
+
     if (isMeetingStarting) {
       await saveStatus();
 

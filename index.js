@@ -1,13 +1,15 @@
 const { beHeadset: beHeadsetAudio } = require("./src/audio");
+const { logEnd, logStart } = require("./src/tracker");
 const { config } = require("./src/config");
 const { beOn: beOnAir } = require("./src/onAirLight");
 const { updateStatus: updateSlackStatus } = require("./src/slack");
 const { bePaused: beMusicPaused } = require("./src/spotify");
 
-const { IS_STARTING: isMeetingStarting } = config;
+const { IS_STARTING: isMeetingStarting, MEETING_TYPE: meetingType } = config;
 
 const startMeeting = () =>
   Promise.all([
+    logStart(meetingType),
     beHeadsetAudio(isMeetingStarting),
     beOnAir(isMeetingStarting),
     beMusicPaused(isMeetingStarting),
@@ -16,16 +18,11 @@ const startMeeting = () =>
 
 const endMeeting = () =>
   Promise.all([
+    logEnd(),
     beHeadsetAudio(isMeetingStarting),
     beOnAir(isMeetingStarting),
     beMusicPaused(isMeetingStarting),
     updateSlackStatus(isMeetingStarting),
   ]);
 
-(async () => {
-  if (isMeetingStarting) {
-    return startMeeting();
-  }
-
-  return endMeeting();
-})();
+(async () => (isMeetingStarting ? startMeeting() : endMeeting()))();

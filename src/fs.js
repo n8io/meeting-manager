@@ -22,5 +22,7 @@ const readJson = async filePath => {
   return JSON.parse(content.toString());
 };
 const writeFile = util.promisify(nativeWriteFile);
+const writeJson = async (filePath, object) =>
+  writeFile(filePath, JSON.stringify(object, null, 2));
 
-module.exports = { exists, mkDir, readFile, readJson, writeFile };
+module.exports = { exists, mkDir, readFile, readJson, writeFile, writeJson };
