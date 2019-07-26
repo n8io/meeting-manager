@@ -19,5 +19,6 @@ Options:
 
 1. Setup
    `yarn install && cat .env.example > .env`
-2. Development
+1. Fill out `.env` accordingly
+1. Development
    `yarn build && meeting-manager -h`
