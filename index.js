@@ -1,5 +1,5 @@
 const { beHeadset: beHeadsetAudio } = require("./src/audio");
-const { logEnd, logStart } = require("./src/tracker");
+const { logEnd, logStart } = require("./src/calendar");
 const { config } = require("./src/config");
 const { beOn: beOnAir } = require("./src/onAirLight");
 const { updateStatus: updateSlackStatus } = require("./src/slack");

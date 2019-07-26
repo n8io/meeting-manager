@@ -10,24 +10,27 @@ require("dotenv").config({
 
 const args = new commander.Command();
 
+const AUDIO_SWITCHER = "SwitchAudioSource";
+const listAudioDevices = `Use "${AUDIO_SWITCHER} -a" to list available audio devices`;
+
 args
   .name(name)
   .version(version)
   .option(
     `-apoi --audio-post-meeting-in`,
-    `The input audio device to switch to after a meeting`
+    `The input audio device to switch to after a meeting. ${listAudioDevices}`
   )
   .option(
     `-apoo --audio-post-meeting-out`,
-    `The ouput audio device to switch to after a meeting`
+    `The ouput audio device to switch to after a meeting. ${listAudioDevices}`
   )
   .option(
     `-apri --audio-pre-meeting-in`,
-    `The input audio device to switch to during a meeting`
+    `The input audio device to switch to during a meeting. ${listAudioDevices}`
   )
   .option(
     `-apro --audio-pre-meeting-out`,
-    `The ouput audio device to switch to during a meeting`
+    `The ouput audio device to switch to during a meeting. ${listAudioDevices}`
   )
   .option(
     `-g --google-calendar-id`,
@@ -64,6 +67,7 @@ if (config.VERBOSE) {
   console.log(`\n${JSON.stringify(config, null, 2)}`);
 }
 
+config.AUDIO_SWITCHER = AUDIO_SWITCHER;
 config.APP_TMP_DIR = `${os.homedir()}/.${name}`;
 
 module.exports = { config, TUPLE, ZOOM };

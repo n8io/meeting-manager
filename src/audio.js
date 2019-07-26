@@ -2,8 +2,8 @@ const { config } = require("./config");
 const { log } = require("./log");
 const { executeCommand, which } = require("./shell");
 
-const AUDIO_SWITCHER = "SwitchAudioSource";
 const {
+  AUDIO_SWITCHER,
   AUDIO_POST_MEETING_IN,
   AUDIO_POST_MEETING_OUT,
   AUDIO_PRE_MEETING_IN,
@@ -39,4 +39,4 @@ const beHeadset = async isHeadset => {
   }
 };
 
-module.exports = { beHeadset };
+module.exports = { AUDIO_SWITCHER, beHeadset };

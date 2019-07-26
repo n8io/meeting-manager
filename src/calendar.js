@@ -4,11 +4,13 @@ const readline = require("readline");
 const { config } = require("./config");
 const { mkDir, readJson, writeFile } = require("./fs");
 const { log } = require("./log");
+const { TUPLE, ZOOM } = require("./meetingType");
 
 const { APP_TMP_DIR, GOOGLE_CALENDAR_ID } = config;
 const CALENDAR_DIR = `${APP_TMP_DIR}/google`;
 
 const CREDENTIALS_PATH = `${CALENDAR_DIR}/credentials.json`;
+const EVENT_PATH = `${CALENDAR_DIR}/event.json`;
 
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
@@ -114,4 +116,53 @@ const createEvent = async event => {
   });
 };
 
-module.exports = { CALENDAR_DIR, createEvent };
+const logEnd = async () => {
+  const now = new Date();
+  const start = await readJson(EVENT_PATH);
+
+  const event = {
+    ...start,
+    end: {
+      dateTime: now.toISOString(),
+    },
+  };
+
+  await writeJson(EVENT_PATH, event);
+
+  return createEvent(event);
+};
+
+const logStart = async meetingType => {
+  const now = new Date();
+
+  await mkDir(CALENDAR_DIR);
+  let summary = null;
+  let location = null;
+
+  switch (meetingType) {
+    case TUPLE:
+      location = "https://production.tuple.app";
+      summary = "Tuple";
+      break;
+    case ZOOM:
+      location = "https://zoom.us";
+      summary = "Zoom";
+      break;
+    default:
+      location = undefined;
+      summary = "Unknown";
+      break;
+  }
+
+  const event = {
+    location,
+    start: {
+      dateTime: now.toISOString(),
+    },
+    summary: `🎧 ${summary}`,
+  };
+
+  return writeJson(EVENT_PATH, event);
+};
+
+module.exports = { CALENDAR_DIR, createEvent, logEnd, logStart };
