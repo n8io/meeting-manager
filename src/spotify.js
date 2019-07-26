@@ -3,12 +3,12 @@ const { executeCommand } = require("./shell");
 const PAUSE = "pause";
 const PLAY = "play";
 
-const bePlaying = async isPlaying => {
+const bePaused = async isPaused => {
   try {
-    await executeCommand(`spotify ${isPlaying ? PLAY : PAUSE}`);
+    await executeCommand(`spotify ${isPaused ? PAUSE : PLAY}`);
   } catch (e) {
     console.log(e);
   }
 };
 
-module.exports = { bePlaying };
+module.exports = { bePaused };
