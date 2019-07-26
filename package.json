@@ -4,6 +4,9 @@
   "main": "index.js",
   "author": "Nate Clark <n8@n8io.com>",
   "license": "MIT",
+  "engines": {
+    "node": "^10"
+  },
   "dependencies": {
     "@slack/web-api": "^5.0.1",
     "commander": "^2.20.0",
