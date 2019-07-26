@@ -2,7 +2,7 @@ const { config } = require("./config");
 const { log } = require("./log");
 const { executeCommand, which } = require("./shell");
 
-const AUDIO_SWITCHER = "SwitchAudioSources";
+const AUDIO_SWITCHER = "SwitchAudioSource";
 const {
   AUDIO_POST_MEETING_IN,
   AUDIO_POST_MEETING_OUT,
@@ -14,7 +14,9 @@ const makeCommand = (device, isInput) =>
   `${AUDIO_SWITCHER} -t ${isInput ? "input" : "output"} -s "${device}"`;
 
 const beHeadset = async isHeadset => {
-  if (!which(AUDIO_SWITCHER)) {
+  const hasAudioSwitcher = await which(AUDIO_SWITCHER);
+
+  if (!hasAudioSwitcher) {
     console.error(`Missing ${AUDIO_SWITCHER} that is used to toggle audio`);
 
     return;

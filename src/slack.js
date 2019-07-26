@@ -1,3 +1,4 @@
+// API token https://api.slack.com/custom-integrations/legacy-tokens
 const { WebClient } = require("@slack/web-api");
 const os = require("os");
 const { config } = require("./config");

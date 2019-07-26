@@ -14,6 +14,14 @@ const executeCommand = command =>
     });
   });
 
-const which = shell.which;
+const which = async app => {
+  try {
+    await executeCommand(`which ${app}`);
+
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
 
 module.exports = { executeCommand, which };
