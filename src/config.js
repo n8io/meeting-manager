@@ -14,6 +14,22 @@ args
   .name(name)
   .version(version)
   .option(
+    `-apoi --audio-post-meeting-in`,
+    `The input audio device to switch to after a meeting`
+  )
+  .option(
+    `-apoo --audio-post-meeting-out`,
+    `The ouput audio device to switch to after a meeting`
+  )
+  .option(
+    `-apri --audio-pre-meeting-in`,
+    `The input audio device to switch to during a meeting`
+  )
+  .option(
+    `-apro --audio-pre-meeting-out`,
+    `The ouput audio device to switch to during a meeting`
+  )
+  .option(
     `-g --google-calendar-id`,
     `Your Google Calendar id to log your meetings`
   )
@@ -28,6 +44,14 @@ args
   .parse(process.argv);
 
 const config = {
+  AUDIO_POST_MEETING_IN:
+    args.audioPostMeetingIn || process.env.AUDIO_POST_MEETING_IN,
+  AUDIO_POST_MEETING_OUT:
+    args.audioPostMeetingOut || process.env.AUDIO_POST_MEETING_OUT,
+  AUDIO_PRE_MEETING_IN:
+    args.audioPreMeetingIn || process.env.AUDIO_PRE_MEETING_IN,
+  AUDIO_PRE_MEETING_OUT:
+    args.audioPreMeetingOut || process.env.AUDIO_PRE_MEETING_OUT,
   GOOGLE_CALENDAR_ID: args.googleCalendarId || process.env.GOOGLE_CALENDAR_ID,
   IFTTT_MAKER_KEY: args.iftttKey || process.env.IFTTT_MAKER_KEY,
   IS_STARTING: Boolean(args.start),

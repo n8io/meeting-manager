@@ -14,4 +14,6 @@ const executeCommand = command =>
     });
   });
 
-module.exports = { executeCommand };
+const which = shell.which;
+
+module.exports = { executeCommand, which };

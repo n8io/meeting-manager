@@ -96,7 +96,7 @@ const updateStatus = async isMeetingStarting => {
       await resetStatus();
     }
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
 };
 
