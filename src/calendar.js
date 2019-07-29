@@ -2,7 +2,7 @@
 const { google } = require("googleapis");
 const readline = require("readline");
 const { config } = require("./config");
-const { mkDir, readJson, writeFile } = require("./fs");
+const { mkDir, readJson, writeJson } = require("./fs");
 const { log } = require("./log");
 const { TUPLE, ZOOM } = require("./meetingType");
 
@@ -46,7 +46,7 @@ const getAccessToken = oAuth2Client => {
 
         await mkDir(CALENDAR_DIR);
         // Store the token to disk for later program executions
-        await writeFile(TOKEN_PATH, JSON.stringify(token));
+        await writeJson(TOKEN_PATH, token);
 
         return resolve(oAuth2Client);
       });
