@@ -137,19 +137,15 @@ const logStart = async meetingType => {
 
   await mkDir(CALENDAR_DIR);
   let summary = null;
-  let location = null;
 
   switch (meetingType) {
     case TUPLE:
-      location = "https://production.tuple.app";
       summary = "Tuple";
       break;
     case ZOOM:
-      location = "https://zoom.us";
       summary = "Zoom";
       break;
     default:
-      location = undefined;
       summary = "Unknown";
       break;
   }
