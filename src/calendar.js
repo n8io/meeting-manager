@@ -151,7 +151,6 @@ const logStart = async meetingType => {
   }
 
   const event = {
-    location,
     start: {
       dateTime: now.toISOString(),
     },
