@@ -40,22 +40,37 @@ const validate = () => {
   }
 };
 
-const saveStatus = async () => {
+const fetchStatus = async () => {
   log("Fetching user status...");
   const { profile } = await web.users.profile.get();
   const { real_name: fullName } = profile;
-  const status = fromSlack(profile);
+
   log(`${fullName}'s status ${JSON.stringify(status)}`);
 
-  await mkDir(SLACK_DIR);
-  await writeFile(STATUS_FILE_PATH, JSON.stringify(status));
+  return fromSlack(profile);
 };
 
 const setStatus = async status => {
-  log(`Setting user status...`);
+  log(`Setting user status... ${JSON.stringify(status)}`);
   await web.users.profile.set({
     profile: toSlack(status),
   });
+};
+
+const isOnCall = async () => {
+  const ON_CALL_STATUS_TEXT = "On a call";
+  const ON_CALL_EMOJI = ":slack_call:";
+  const { emoji, text } = await fetchStatus();
+
+  return emoji === ON_CALL_EMOJI && text === ON_CALL_STATUS_TEXT;
+};
+
+const saveStatus = async () => {
+  const status = await fetchStatus();
+
+  log("Saving user status to disk...");
+  await mkDir(SLACK_DIR);
+  await writeFile(STATUS_FILE_PATH, JSON.stringify(status));
 };
 
 const resetStatus = async () => {
