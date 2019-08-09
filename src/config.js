@@ -2,7 +2,7 @@ const commander = require("commander");
 const os = require("os");
 const path = require("path");
 const { name, version } = require("../package.json");
-const { TUPLE, ZOOM } = require("./meetingType");
+const MeetingType = require("./meetingType");
 
 require("dotenv").config({
   path: path.join(__dirname, "../.env"),
@@ -59,9 +59,19 @@ const config = {
   IFTTT_MAKER_KEY: args.iftttKey || process.env.IFTTT_MAKER_KEY,
   IS_STARTING: Boolean(args.start),
   SLACK_API_TOKEN: args.slackKey || process.env.SLACK_API_TOKEN,
-  MEETING_TYPE: args.meetingType === TUPLE ? TUPLE : ZOOM,
+  MEETING_TYPE: args.meetingType && MeetingType[args.meetingType.toUpperCase()],
   VERBOSE: Boolean(args.verbose),
 };
+
+if (args.meetingType && !config.MEETING_TYPE) {
+  console.error(
+    `Invalid meeting type provided "${
+      args.meetingType
+    }". Must be one of the following: ${Object.values(MeetingType).join(", ")}`
+  );
+
+  return process.exit(1);
+}
 
 if (config.VERBOSE) {
   console.log(`\n${JSON.stringify(config, null, 2)}`);
@@ -70,4 +80,4 @@ if (config.VERBOSE) {
 config.AUDIO_SWITCHER = AUDIO_SWITCHER;
 config.APP_TMP_DIR = `${os.homedir()}/.${name}`;
 
-module.exports = { config, TUPLE, ZOOM };
+module.exports = { config };
