@@ -43,7 +43,7 @@ const validate = () => {
 const fetchStatus = async () => {
   log("Fetching user status...");
   const { profile } = await web.users.profile.get();
-  const { real_name: fullName } = profile;
+  const { real_name: fullName, status_text: status } = profile;
 
   log(`${fullName}'s status ${JSON.stringify(status)}`);
 
@@ -106,6 +106,8 @@ const updateStatus = async isMeetingStarting => {
       await saveStatus();
 
       const status = makeStatus(MEETING_TYPE);
+
+      if (!status) return;
 
       await setStatus(status);
     } else {
