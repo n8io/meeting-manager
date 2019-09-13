@@ -38,6 +38,8 @@ args
   )
   .option(`-i --ifttt-key`, `Your IFTTT maker key to use`)
   .option(`-k --slack-key`, `Your Slack api key`)
+  .option(`-kt --slack-emoji-tuple`, `Your Slack emoji for Tuple pairing`)
+  .option(`-kz --slack-emoji-zoom`, `Your Slack emoji for Zoom meetings`)
   .option(`-s --start`, `Flag to start a meeting. Otherwise end a meeting`)
   .option(
     `-t --meeting-type <zoom or tuple>`,
@@ -59,6 +61,8 @@ const config = {
   IFTTT_MAKER_KEY: args.iftttKey || process.env.IFTTT_MAKER_KEY,
   IS_STARTING: Boolean(args.start),
   SLACK_API_TOKEN: args.slackKey || process.env.SLACK_API_TOKEN,
+  SLACK_EMOJI_TUPLE: args.slackEmojiTuple || process.env.SLACK_EMOJI_TUPLE,
+  SLACK_EMOJI_ZOOM: args.slackEmojiZoom || process.env.SLACK_EMOJI_ZOOM,
   MEETING_TYPE: args.meetingType && MeetingType[args.meetingType.toUpperCase()],
   VERBOSE: Boolean(args.verbose),
 };

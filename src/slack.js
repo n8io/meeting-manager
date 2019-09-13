@@ -6,7 +6,13 @@ const { log } = require("./log");
 const { TUPLE, ZOOM } = require("./meetingType");
 const { mkDir, readJson, writeFile } = require("./fs");
 
-const { APP_TMP_DIR, MEETING_TYPE, SLACK_API_TOKEN } = config;
+const {
+  APP_TMP_DIR,
+  MEETING_TYPE,
+  SLACK_API_TOKEN,
+  SLACK_EMOJI_TUPLE,
+  SLACK_EMOJI_ZOOM,
+} = config;
 const SLACK_DIR = `${APP_TMP_DIR}/slack`;
 const STATUS_FILE_PATH = `${SLACK_DIR}/status.json`;
 
@@ -31,6 +37,8 @@ const toSlack = ({
   status_emoji,
   status_expiration,
 });
+
+const toSlackEmoji = baseName => `:${baseName}:`;
 
 const validate = () => {
   if (!SLACK_API_TOKEN) {
@@ -83,13 +91,13 @@ const makeStatus = meetingType => {
   switch (meetingType) {
     case TUPLE:
       return {
-        emoji: ":twr:",
+        emoji: toSlackEmoji(SLACK_EMOJI_TUPLE),
         expiration: 0,
         text: "In a pairing session",
       };
     case ZOOM:
       return {
-        emoji: ":zoom:",
+        emoji: toSlackEmoji(SLACK_EMOJI_ZOOM),
         expiration: 0,
         text: "In a meeting",
       };
